@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "message": "Our office is open from 9 AM to 6 PM, Monday through Friday. This is an automated response; for further details, please contact our support team."
+  },
+  {
+    "id": 2,
+    "message": "Return Period Standard Items: Returns are accepted within 30 days of purchase. Electronics and Special Items: Returns must be initiated within 14 days of purchase. Condition for Returns Items must be unused, in their original packaging, and include all accessories, tags, and documentation. Items marked as Final Sale or Non-Returnable cannot be returned or exchanged. Refunds and Exchanges Refunds will be issued to the original payment method within 7-10 business days of return approval. Exchanges are subject to product availability."
+  },
+  {
+    "id": 3,
+    "message": "You can reach us via email at peintai54@gmail.com. This is an automated reply to guide you."
+  },
+  {
+    "id": 4,
+    "message": "Yes, we ship to most countries worldwide. This response was automatically generated; please check our shipping page for more details."
+  },
+  {
+    "id": 5,
+    "message": "We accept credit cards, PayPal, and bank transfers. This is an automated answer; contact us for more options."
+  },
+  {
+    "id": 6,
+    "message": "Shipping times vary but usually take 5–7 business days for domestic orders. This automated response may not reflect delays."
+  },
+  {
+    "id": 7,
+    "message": "Orders can be canceled within 24 hours of placement. This is an automated response; for urgent cancellations, please contact us."
+  },
+  {
+    "id": 8,
+    "message": "If you receive a damaged item, please email us a photo within 7 days of delivery. This message was automatically generated for your convenience."
+  },
+  {
+    "id": 9,
+    "message": "You will receive a tracking number once your order has shipped. This automated response includes standard information."
+  },
+  {
+    "id": 10,
+    "message": "Address changes are possible within 12 hours of order placement. This automated message may not cover all exceptions."
+  },
+  {
+    "id": 11,
+    "message": "Yes, all our products come with a 1-year warranty. This automated reply outlines our general warranty policy."
+  },
+  {
+    "id": 12,
+    "message": "Yes, we provide discounts for orders above $500. This is an automated answer; contact our sales team for specific quotes."
+  },
+  {
+    "id": 13,
+    "message": "You can unsubscribe by clicking the link at the bottom of any newsletter email. This is an automated message for your convenience."
+  },
+  {
+    "id": 14,
+    "message": "VAT refunds are available for eligible international orders. This automated response covers general guidelines."
+  },
+  {
+    "id": 15,
+    "message": "Click 'Forgot Password' on the login page and follow the instructions. This is an automated response to help you."
+  },
+  {
+    "id": 16,
+    "message": "We accept JPG, PNG, and PDF formats. This automated answer is based on our current system settings."
+  },
+  {
+    "id": 17,
+    "message": "Yes, gift wrapping is available for an additional fee. This automated reply outlines our standard service."
+  },
+  {
+    "id": 18,
+    "message": "Scheduled delivery is available upon request. This is an automated response; contact us for special arrangements."
+  },
+  {
+    "id": 19,
+    "message": "Yes, we strive to use sustainable materials. This automated message reflects our general commitment."
+  },
+  {
+    "id": 20,
+    "message": "If your package is lost, contact us with your order details for assistance. This automated response includes our general process."
+  }
+]
