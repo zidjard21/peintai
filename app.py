@@ -1,12 +1,15 @@
 from openai import OpenAI
-from flask import Flask, render_template, request, g
+from flask import Flask, render_template, request, session  # Import session
 from dotenv import load_dotenv
 import json
 import os
+import uuid  # To generate unique session IDs
 
 load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.getenv("FLASK_SECRET_KEY") # Required for sessions
+
 client = OpenAI(api_key=os.getenv("API_KEY"))
 
 assistant_level1 = client.beta.assistants.retrieve("asst_Lh3Aw7iTVVTJjnGC8DvhieD7")
@@ -16,29 +19,24 @@ assistant_level2 = client.beta.assistants.retrieve("asst_9wWZ6jvMXY47AW3sOMHOtaH
 with open("FAQ.json") as f:
     faq = json.load(f)
 
-# Store messages in memory for simplicity
-messages = []
-
-thread = client.beta.threads.create()
-
-def get_faq_response(user_input):
+def get_faq_response(user_input, thread_id):
     """
     Sends the user input to OpenAI and gets the assistant's response.
     """
     try:
         message = client.beta.threads.messages.create(
-            thread_id=thread.id,
+            thread_id=thread_id,
             role="user",
             content=user_input
         )
         run = client.beta.threads.runs.create_and_poll(
-            thread_id=thread.id,
+            thread_id=thread_id,
             assistant_id=assistant_level1.id
         )
         # Extract and return the assistant's response
         if run.status == 'completed':
             thread_messages = client.beta.threads.messages.list(
-                thread_id=thread.id
+                thread_id=thread_id
             )
             # Ensure you are getting the last message from the data attribute
             if thread_messages.data:
@@ -52,24 +50,24 @@ def get_faq_response(user_input):
     except Exception as e:
         return f"Error: {str(e)}"
 
-def get_openai_response(user_input):
+def get_openai_response(user_input, thread_id):
     """
     Sends the user input to OpenAI and gets the assistant's response.
     """
     try:
         message = client.beta.threads.messages.create(
-            thread_id=thread.id,
+            thread_id=thread_id,
             role="user",
             content=user_input
         )
         run = client.beta.threads.runs.create_and_poll(
-            thread_id=thread.id,
+            thread_id=thread_id,
             assistant_id=assistant_level2.id
         )
         # Extract and return the assistant's response
         if run.status == 'completed':
             thread_messages = client.beta.threads.messages.list(
-                thread_id=thread.id
+                thread_id=thread_id
             )
             # Ensure you are getting the last message from the data attribute
             if thread_messages.data:
@@ -82,35 +80,40 @@ def get_openai_response(user_input):
 
     except Exception as e:
         return f"Error: {str(e)}"
-    
+
 @app.before_request
-def reset_messages():
+def initialize_session():
     """
-    Initialize a new list of messages for each request.
-    This ensures messages are cleared on every reload.
+    Initialize session-specific data for each user.
     """
-    g.messages = []
+    if "session_id" not in session:
+        session["session_id"] = str(uuid.uuid4())  # Generate a unique session ID
+        session["messages"] = []  # Initialize an empty list for messages
+        # Create a new thread and store only the thread ID in the session
+        thread = client.beta.threads.create()
+        session["thread_id"] = thread.id  # Store only the thread ID
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-    global messages
-
     if request.method == "POST":
         user_text = request.form.get("user_input")
         if user_text:
-            # Add user message to the conversation history
-            messages.append({"sender": "user", "text": user_text})
+            # Add user message to the session's conversation history
+            session["messages"].append({"sender": "user", "text": user_text})
 
             # Get assistant response from OpenAI
-            faq_response = get_faq_response(user_text)
+            faq_response = get_faq_response(user_text, session["thread_id"])
             print(faq_response)
             if faq_response == 'None':
-                assistant_response = get_openai_response(user_text)
+                assistant_response = get_openai_response(user_text, session["thread_id"])
             else:
                 assistant_response = faq[int(faq_response)-1]["message"]
-            messages.append({"sender": "assistant", "text": assistant_response})
+            session["messages"].append({"sender": "assistant", "text": assistant_response})
 
-    return render_template("index.html", messages=messages)
+            # Save the session
+            session.modified = True
+
+    return render_template("index.html", messages=session["messages"])
 
 if __name__ == "__main__":
     app.run(debug=True)
