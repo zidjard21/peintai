@@ -42,12 +42,16 @@
       // Scroll to the bottom of the chat messages
       function scrollToBottom() {
         const chatMessages = document.getElementById("chatMessages");
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        if (chatMessages) {
+          chatMessages.scrollTo({
+            top: chatMessages.scrollHeight,
+            behavior: "smooth",
+          });
+        }
       }
 
       // Call the scroll function when the page loads
-      const chatForm = document.getElementById("chatMessages");
-      chatForm === null ? null : (window.onload = scrollToBottom);
+      window.onload = scrollToBottom;
 
       // Function to disable the input and button
       const disableInputAndButton = () => {

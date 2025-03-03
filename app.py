@@ -4,10 +4,12 @@ from dotenv import load_dotenv
 import json
 import os
 import uuid  # To generate unique session IDs
+from flask_cors import CORS
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)  # Allow all origins
 app.secret_key = os.getenv("FLASK_SECRET_KEY") # Required for sessions
 
 client = OpenAI(api_key=os.getenv("API_KEY"))
